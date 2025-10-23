@@ -1,8 +1,11 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Columns3, BarChart3, Calculator, Download, Info } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Columns3, BarChart3, Calculator, Download, Info, Search, Check } from "lucide-react";
 import { ParsedData } from "@/pages/App";
+import { useState, useEffect } from "react";
 
 interface TabNavigationProps {
   activeTab: string;
@@ -50,26 +53,7 @@ export const TabNavigation = ({ activeTab, onTabChange, parsedData }: TabNavigat
 
       <div className="mt-6">
         <TabsContent value="columns" className="space-y-4">
-          <PlaceholderTab
-            title="Column Selection"
-            description="Select specific columns from your dataset for analysis"
-            icon={Columns3}
-          >
-            <div className="space-y-2">
-              <p className="text-sm font-medium mb-3">Available columns:</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                {parsedData.headers.map((header, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center gap-2 p-2 rounded border border-border/50 bg-secondary/20"
-                  >
-                    <input type="checkbox" disabled className="rounded" />
-                    <span className="text-sm truncate">{header || `Column ${idx + 1}`}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </PlaceholderTab>
+          <ColumnSelectionTab parsedData={parsedData} />
         </TabsContent>
 
         <TabsContent value="plots" className="space-y-4">
@@ -182,6 +166,178 @@ const PlaceholderTab = ({ title, description, icon: Icon, children }: Placeholde
       </div>
 
       <div className="opacity-60 pointer-events-none">{children}</div>
+    </Card>
+  );
+};
+
+interface ColumnSelectionTabProps {
+  parsedData: ParsedData;
+}
+
+const ColumnSelectionTab = ({ parsedData }: ColumnSelectionTabProps) => {
+  const [includedColumns, setIncludedColumns] = useState<string[]>([]);
+  const [excludedColumns, setExcludedColumns] = useState<string[]>([]);
+  const [includeFilter, setIncludeFilter] = useState("");
+  const [excludeFilter, setExcludeFilter] = useState("");
+
+  // Initialize with first 20 columns as included
+  useEffect(() => {
+    const allColumns = parsedData.headers.map((header, idx) => header || `Column ${idx + 1}`);
+    const first20 = allColumns.slice(0, 20);
+    const rest = allColumns.slice(20);
+    setIncludedColumns(first20);
+    setExcludedColumns(rest);
+  }, [parsedData.headers]);
+
+  const handleMoveToExcluded = (column: string) => {
+    setIncludedColumns(prev => prev.filter(col => col !== column));
+    setExcludedColumns(prev => [...prev, column]);
+  };
+
+  const handleMoveToIncluded = (column: string) => {
+    setExcludedColumns(prev => prev.filter(col => col !== column));
+    setIncludedColumns(prev => [...prev, column]);
+  };
+
+  const handleAddAllIncluded = () => {
+    if (includeFilter && includedColumns.length > 0) {
+      const filteredColumns = includedColumns.filter(col => 
+        col.toLowerCase().includes(includeFilter.toLowerCase())
+      );
+      filteredColumns.forEach(col => handleMoveToExcluded(col));
+      setIncludeFilter("");
+    }
+  };
+
+  const handleAddAllExcluded = () => {
+    if (excludeFilter && excludedColumns.length > 0) {
+      const filteredColumns = excludedColumns.filter(col => 
+        col.toLowerCase().includes(excludeFilter.toLowerCase())
+      );
+      filteredColumns.forEach(col => handleMoveToIncluded(col));
+      setExcludeFilter("");
+    }
+  };
+
+  const filteredIncluded = includedColumns.filter(col => 
+    col.toLowerCase().includes(includeFilter.toLowerCase())
+  );
+
+  const filteredExcluded = excludedColumns.filter(col => 
+    col.toLowerCase().includes(excludeFilter.toLowerCase())
+  );
+
+  return (
+    <Card className="p-6">
+      <div className="mb-6">
+        <div className="flex items-start gap-4 mb-4">
+          <div className="bg-primary/10 p-3 rounded-lg">
+            <Columns3 className="h-6 w-6 text-primary" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-xl font-semibold">Column Selection</h3>
+            <p className="text-muted-foreground">Select specific columns from your dataset for analysis</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-6">
+        {/* Included Columns Section */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h4 className="text-lg font-medium">Included Columns ({includedColumns.length})</h4>
+          </div>
+          
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Filter included columns..."
+                value={includeFilter}
+                onChange={(e) => setIncludeFilter(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            {includeFilter && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleAddAllIncluded}
+                className="flex items-center gap-2"
+              >
+                <Check className="h-4 w-4" />
+                Exclude All
+              </Button>
+            )}
+          </div>
+
+          <div className="border border-border/50 rounded-lg p-4 min-h-[120px]">
+            <div className="flex flex-wrap gap-2">
+              {filteredIncluded.map((column, idx) => (
+                <Badge
+                  key={idx}
+                  variant="secondary"
+                  className="cursor-pointer hover:bg-destructive hover:text-destructive-foreground transition-colors px-3 py-1"
+                  onClick={() => handleMoveToExcluded(column)}
+                >
+                  {column}
+                </Badge>
+              ))}
+              {filteredIncluded.length === 0 && includeFilter && (
+                <p className="text-muted-foreground text-sm">No columns match the filter</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Excluded Columns Section */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h4 className="text-lg font-medium">Excluded Columns ({excludedColumns.length})</h4>
+          </div>
+          
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Filter excluded columns..."
+                value={excludeFilter}
+                onChange={(e) => setExcludeFilter(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            {excludeFilter && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleAddAllExcluded}
+                className="flex items-center gap-2"
+              >
+                <Check className="h-4 w-4" />
+                Include All
+              </Button>
+            )}
+          </div>
+
+          <div className="border border-border/50 rounded-lg p-4 min-h-[120px]">
+            <div className="flex flex-wrap gap-2">
+              {filteredExcluded.map((column, idx) => (
+                <Badge
+                  key={idx}
+                  variant="outline"
+                  className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors px-3 py-1"
+                  onClick={() => handleMoveToIncluded(column)}
+                >
+                  {column}
+                </Badge>
+              ))}
+              {filteredExcluded.length === 0 && excludeFilter && (
+                <p className="text-muted-foreground text-sm">No columns match the filter</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </Card>
   );
 };
