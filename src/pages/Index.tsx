@@ -48,7 +48,7 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-[var(--gradient-hero)] pointer-events-none" />
-        <div className="container mx-auto px-4 py-20 md:py-32 relative">
+        <div className="container mx-auto px-4 py-12 md:py-16 relative">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <div className="inline-block">
@@ -91,7 +91,7 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 md:py-32 bg-secondary/30">
+      <section className="py-12 md:py-16 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h3 className="text-3xl md:text-4xl font-bold mb-4">
@@ -119,7 +119,7 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 md:py-32">
+      <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
           <div className="bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] rounded-3xl p-12 md:p-16 text-center text-primary-foreground relative overflow-hidden">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNnoiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW9wYWNpdHk9Ii4xIi8+PC9nPjwvc3ZnPg==')] opacity-10" />

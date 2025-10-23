@@ -48,7 +48,7 @@ const App = () => {
             <div className="flex items-center gap-2">
               <img src="/logo.png" alt="LocaStat Logo" className="h-8 w-8" />
               <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">
-                LocaStat Offline
+                LocaStat 
               </h1>
             </div>
           </div>
