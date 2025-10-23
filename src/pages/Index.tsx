@@ -35,7 +35,7 @@ const Index = () => {
           <div className="flex items-center gap-2">
             <Database className="h-6 w-6 text-primary" />
             <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">
-              DataPrep Offline
+              LocaStat Offline
             </h1>
           </div>
           <Link to="/app">
@@ -137,7 +137,7 @@ const Index = () => {
                   variant="secondary"
                   className="bg-white text-primary hover:bg-white/90 hover:scale-105"
                 >
-                  Try DataPrep Now
+                  Try LocaStat Now
                   <BarChart3 className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
@@ -152,7 +152,7 @@ const Index = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
               <Database className="h-5 w-5 text-primary" />
-              <span className="font-semibold">DataPrep Offline</span>
+              <span className="font-semibold">LocaStat Offline</span>
             </div>
             <div className="text-sm text-muted-foreground">
               Built for researchers, by researchers. 100% offline, 100% private.

@@ -48,7 +48,7 @@ const App = () => {
             <div className="flex items-center gap-2">
               <Database className="h-6 w-6 text-primary" />
               <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">
-                DataPrep Offline
+                LocaStat Offline
               </h1>
             </div>
           </div>

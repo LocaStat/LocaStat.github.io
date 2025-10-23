@@ -1,4 +1,4 @@
-# DataPrep Offline
+# LocaStat Offline
 
 A modern offline data preprocessing and analysis tool for scientific researchers. Private, fast, and expandable.
 
