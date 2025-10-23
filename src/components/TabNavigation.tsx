@@ -11,9 +11,21 @@ interface TabNavigationProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   parsedData: ParsedData;
+  includedColumns: string[];
+  excludedColumns: string[];
+  onIncludedColumnsChange: (columns: string[]) => void;
+  onExcludedColumnsChange: (columns: string[]) => void;
 }
 
-export const TabNavigation = ({ activeTab, onTabChange, parsedData }: TabNavigationProps) => {
+export const TabNavigation = ({ 
+  activeTab, 
+  onTabChange, 
+  parsedData, 
+  includedColumns, 
+  excludedColumns, 
+  onIncludedColumnsChange, 
+  onExcludedColumnsChange 
+}: TabNavigationProps) => {
   return (
     <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
       <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 h-auto gap-2 bg-transparent">
@@ -53,7 +65,13 @@ export const TabNavigation = ({ activeTab, onTabChange, parsedData }: TabNavigat
 
       <div className="mt-6">
         <TabsContent value="columns" className="space-y-4">
-          <ColumnSelectionTab parsedData={parsedData} />
+          <ColumnSelectionTab 
+            parsedData={parsedData}
+            includedColumns={includedColumns}
+            excludedColumns={excludedColumns}
+            onIncludedColumnsChange={onIncludedColumnsChange}
+            onExcludedColumnsChange={onExcludedColumnsChange}
+          />
         </TabsContent>
 
         <TabsContent value="plots" className="space-y-4">
@@ -172,31 +190,41 @@ const PlaceholderTab = ({ title, description, icon: Icon, children }: Placeholde
 
 interface ColumnSelectionTabProps {
   parsedData: ParsedData;
+  includedColumns: string[];
+  excludedColumns: string[];
+  onIncludedColumnsChange: (columns: string[]) => void;
+  onExcludedColumnsChange: (columns: string[]) => void;
 }
 
-const ColumnSelectionTab = ({ parsedData }: ColumnSelectionTabProps) => {
-  const [includedColumns, setIncludedColumns] = useState<string[]>([]);
-  const [excludedColumns, setExcludedColumns] = useState<string[]>([]);
+const ColumnSelectionTab = ({ 
+  parsedData, 
+  includedColumns, 
+  excludedColumns, 
+  onIncludedColumnsChange, 
+  onExcludedColumnsChange 
+}: ColumnSelectionTabProps) => {
   const [includeFilter, setIncludeFilter] = useState("");
   const [excludeFilter, setExcludeFilter] = useState("");
 
-  // Initialize with first 20 columns as included
+  // Initialize with first 20 columns as included if no columns are set
   useEffect(() => {
-    const allColumns = parsedData.headers.map((header, idx) => header || `Column ${idx + 1}`);
-    const first20 = allColumns.slice(0, 20);
-    const rest = allColumns.slice(20);
-    setIncludedColumns(first20);
-    setExcludedColumns(rest);
-  }, [parsedData.headers]);
+    if (includedColumns.length === 0 && excludedColumns.length === 0) {
+      const allColumns = parsedData.headers.map((header, idx) => header || `Column ${idx + 1}`);
+      const first20 = allColumns.slice(0, 20);
+      const rest = allColumns.slice(20);
+      onIncludedColumnsChange(first20);
+      onExcludedColumnsChange(rest);
+    }
+  }, [parsedData.headers, includedColumns.length, excludedColumns.length, onIncludedColumnsChange, onExcludedColumnsChange]);
 
   const handleMoveToExcluded = (column: string) => {
-    setIncludedColumns(prev => prev.filter(col => col !== column));
-    setExcludedColumns(prev => [...prev, column]);
+    onIncludedColumnsChange(includedColumns.filter(col => col !== column));
+    onExcludedColumnsChange([...excludedColumns, column]);
   };
 
   const handleMoveToIncluded = (column: string) => {
-    setExcludedColumns(prev => prev.filter(col => col !== column));
-    setIncludedColumns(prev => [...prev, column]);
+    onExcludedColumnsChange(excludedColumns.filter(col => col !== column));
+    onIncludedColumnsChange([...includedColumns, column]);
   };
 
   const handleAddAllIncluded = () => {

@@ -1,10 +1,19 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import { FileUploadZone } from "@/components/FileUploadZone";
 import { DataPreview } from "@/components/DataPreview";
 import { TabNavigation } from "@/components/TabNavigation";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 
 export interface ParsedData {
@@ -17,8 +26,12 @@ export interface ParsedData {
 }
 
 const App = () => {
+  const navigate = useNavigate();
   const [parsedData, setParsedData] = useState<ParsedData | null>(null);
   const [activeTab, setActiveTab] = useState<string>("preview");
+  const [includedColumns, setIncludedColumns] = useState<string[]>([]);
+  const [excludedColumns, setExcludedColumns] = useState<string[]>([]);
+  const [showExitDialog, setShowExitDialog] = useState(false);
 
   const handleFileUpload = (data: ParsedData) => {
     setParsedData(data);
@@ -29,8 +42,24 @@ const App = () => {
   const handleClearData = () => {
     setParsedData(null);
     setActiveTab("preview");
+    setIncludedColumns([]);
+    setExcludedColumns([]);
     sessionStorage.clear();
     toast.info("Data cleared");
+  };
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (parsedData) {
+      setShowExitDialog(true);
+    } else {
+      navigate("/");
+    }
+  };
+
+  const handleConfirmExit = () => {
+    setShowExitDialog(false);
+    navigate("/");
   };
 
   return (
@@ -39,18 +68,12 @@ const App = () => {
       <header className="border-b border-border/40 backdrop-blur-sm sticky top-0 z-50 bg-background/95">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link to="/">
-              <Button variant="ghost" size="sm">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back
-              </Button>
-            </Link>
-            <div className="flex items-center gap-2">
+            <Link to="/" onClick={handleLogoClick} className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
               <img src="/logo.png" alt="LocaStat Logo" className="h-8 w-8" />
               <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">
                 LocaStat 
               </h1>
-            </div>
+            </Link>
           </div>
           {parsedData && (
             <Button variant="outline" size="sm" onClick={handleClearData}>
@@ -82,15 +105,41 @@ const App = () => {
           </div>
         ) : (
           <div className="space-y-6">
-            <DataPreview data={parsedData} />
+            <DataPreview 
+              data={parsedData} 
+              includedColumns={includedColumns}
+              excludedColumns={excludedColumns}
+            />
             <TabNavigation
               activeTab={activeTab}
               onTabChange={setActiveTab}
               parsedData={parsedData}
+              includedColumns={includedColumns}
+              excludedColumns={excludedColumns}
+              onIncludedColumnsChange={setIncludedColumns}
+              onExcludedColumnsChange={setExcludedColumns}
             />
           </div>
         )}
       </main>
+
+      {/* Exit Confirmation Dialog */}
+      <AlertDialog open={showExitDialog} onOpenChange={setShowExitDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Unsaved Data Warning</AlertDialogTitle>
+            <AlertDialogDescription>
+              You have unsaved data processing in progress. Leaving now will lose any unsaved changes. Are you sure you want to continue?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Stay Here</AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmExit}>
+              Leave Anyway
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
