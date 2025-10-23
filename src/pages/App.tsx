@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Database, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { FileUploadZone } from "@/components/FileUploadZone";
 import { DataPreview } from "@/components/DataPreview";
 import { TabNavigation } from "@/components/TabNavigation";
@@ -46,7 +46,7 @@ const App = () => {
               </Button>
             </Link>
             <div className="flex items-center gap-2">
-              <Database className="h-6 w-6 text-primary" />
+              <img src="/logo.png" alt="LocaStat Logo" className="h-8 w-8" />
               <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">
                 LocaStat Offline
               </h1>

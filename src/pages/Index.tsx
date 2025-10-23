@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Database, Lock, Zap, TrendingUp, FileUp, BarChart3, Shield, Cloud } from "lucide-react";
+import { Lock, Zap, TrendingUp, FileUp, BarChart3, Shield, Cloud } from "lucide-react";
 import heroImage from "@/assets/hero-illustration.jpg";
 
 const Index = () => {
@@ -33,9 +33,8 @@ const Index = () => {
       <header className="border-b border-border/40 backdrop-blur-sm sticky top-0 z-50 bg-background/80">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Database className="h-6 w-6 text-primary" />
             <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">
-              LocaStat Offline
+              LocaStat 
             </h1>
           </div>
           <Link to="/app">
@@ -151,7 +150,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
-              <Database className="h-5 w-5 text-primary" />
+              <img src="/logo.png" alt="LocaStat Logo" className="h-6 w-6" />
               <span className="font-semibold">LocaStat Offline</span>
             </div>
             <div className="text-sm text-muted-foreground">
