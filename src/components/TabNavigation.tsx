@@ -3,9 +3,10 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Columns3, BarChart3, Calculator, Download, Info, Search, Check } from "lucide-react";
+import { Columns3, BarChart3, Calculator, Download, Info, Search, Check, FileDown } from "lucide-react";
 import { ParsedData } from "@/pages/App";
 import { useState, useEffect } from "react";
+import { downloadCSV, downloadJSON, downloadExcel } from "@/lib/exportUtils";
 
 interface TabNavigationProps {
   activeTab: string;
@@ -122,23 +123,10 @@ export const TabNavigation = ({
         </TabsContent>
 
         <TabsContent value="export" className="space-y-4">
-          <PlaceholderTab
-            title="Data Export"
-            description="Export your processed data in various formats"
-            icon={Download}
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {["CSV", "Excel (XLSX)", "JSON"].map((format) => (
-                <div
-                  key={format}
-                  className="p-6 border border-border rounded-lg text-center hover:border-primary/50 transition-colors"
-                >
-                  <Download className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                  <p className="font-medium">{format}</p>
-                </div>
-              ))}
-            </div>
-          </PlaceholderTab>
+          <DataExportTab 
+            parsedData={parsedData}
+            includedColumns={includedColumns}
+          />
         </TabsContent>
       </div>
     </Tabs>
@@ -205,6 +193,7 @@ const ColumnSelectionTab = ({
 }: ColumnSelectionTabProps) => {
   const [includeFilter, setIncludeFilter] = useState("");
   const [excludeFilter, setExcludeFilter] = useState("");
+  const [showAllExcluded, setShowAllExcluded] = useState(false);
 
   // Initialize with first 20 columns as included if no columns are set
   useEffect(() => {
@@ -349,7 +338,7 @@ const ColumnSelectionTab = ({
 
           <div className="border border-border/50 rounded-lg p-4 min-h-[120px]">
             <div className="flex flex-wrap gap-2">
-              {filteredExcluded.map((column, idx) => (
+              {filteredExcluded.slice(0, showAllExcluded ? filteredExcluded.length : 100).map((column, idx) => (
                 <Badge
                   key={idx}
                   variant="outline"
@@ -363,9 +352,157 @@ const ColumnSelectionTab = ({
                 <p className="text-muted-foreground text-sm">No columns match the filter</p>
               )}
             </div>
+            
+            {filteredExcluded.length > 100 && !showAllExcluded && (
+              <div className="mt-4 flex justify-center">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowAllExcluded(true)}
+                  className="flex items-center gap-2"
+                >
+                  See all ({filteredExcluded.length} columns)
+                </Button>
+              </div>
+            )}
+            
+            {showAllExcluded && filteredExcluded.length > 100 && (
+              <div className="mt-4 flex justify-center">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowAllExcluded(false)}
+                  className="flex items-center gap-2"
+                >
+                  Show less
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>
+    </Card>
+  );
+};
+
+interface DataExportTabProps {
+  parsedData: ParsedData;
+  includedColumns: string[];
+}
+
+const DataExportTab = ({ parsedData, includedColumns }: DataExportTabProps) => {
+  const hasFilteredColumns = includedColumns.length > 0;
+  const totalColumns = parsedData.headers.length;
+
+  const handleCSVDownload = () => {
+    if (hasFilteredColumns) {
+      downloadCSV(parsedData, includedColumns);
+    } else {
+      // Download all columns if no filtering
+      const allColumns = parsedData.headers.map((header, idx) => header || `Column ${idx + 1}`);
+      downloadCSV(parsedData, allColumns);
+    }
+  };
+
+  const handleJSONDownload = () => {
+    if (hasFilteredColumns) {
+      downloadJSON(parsedData, includedColumns);
+    } else {
+      // Download all columns if no filtering
+      const allColumns = parsedData.headers.map((header, idx) => header || `Column ${idx + 1}`);
+      downloadJSON(parsedData, allColumns);
+    }
+  };
+
+  const handleExcelDownload = () => {
+    if (hasFilteredColumns) {
+      downloadExcel(parsedData, includedColumns);
+    } else {
+      // Download all columns if no filtering
+      const allColumns = parsedData.headers.map((header, idx) => header || `Column ${idx + 1}`);
+      downloadExcel(parsedData, allColumns);
+    }
+  };
+
+  return (
+    <Card className="p-6">
+      <div className="mb-6">
+        <div className="flex items-start gap-4 mb-4">
+          <div className="bg-primary/10 p-3 rounded-lg">
+            <Download className="h-6 w-6 text-primary" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-xl font-semibold">Data Export</h3>
+            <p className="text-muted-foreground">
+              Export your processed data in various formats
+            </p>
+          </div>
+        </div>
+        
+        {hasFilteredColumns && (
+          <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 flex items-start gap-3 mb-6">
+            <Info className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+            <div className="text-sm">
+              <p className="font-medium mb-1">Filtered Data Export</p>
+              <p className="text-muted-foreground">
+                Exporting {includedColumns.length} of {totalColumns} columns. 
+                Only the selected columns will be included in the exported file.
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="p-6 border border-border rounded-lg text-center hover:border-primary/50 transition-colors">
+          <FileDown className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+          <p className="font-medium mb-2">CSV Format</p>
+          <p className="text-sm text-muted-foreground mb-4">
+            Comma-separated values, compatible with Excel and most data tools
+          </p>
+          <Button onClick={handleCSVDownload} className="w-full">
+            <Download className="h-4 w-4 mr-2" />
+            Download CSV
+          </Button>
+        </div>
+
+        <div className="p-6 border border-border rounded-lg text-center hover:border-primary/50 transition-colors">
+          <FileDown className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+          <p className="font-medium mb-2">JSON Format</p>
+          <p className="text-sm text-muted-foreground mb-4">
+            JavaScript Object Notation, ideal for web applications and APIs
+          </p>
+          <Button onClick={handleJSONDownload} className="w-full">
+            <Download className="h-4 w-4 mr-2" />
+            Download JSON
+          </Button>
+        </div>
+
+        <div className="p-6 border border-border rounded-lg text-center hover:border-primary/50 transition-colors">
+          <FileDown className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+          <p className="font-medium mb-2">Excel Format</p>
+          <p className="text-sm text-muted-foreground mb-4">
+            Microsoft Excel format, preserves formatting and data types
+          </p>
+          <Button onClick={handleExcelDownload} className="w-full">
+            <Download className="h-4 w-4 mr-2" />
+            Download Excel
+          </Button>
+        </div>
+      </div>
+
+      {!hasFilteredColumns && (
+        <div className="mt-6 bg-secondary/30 border border-border/50 rounded-lg p-4 flex items-start gap-3">
+          <Info className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+          <div className="text-sm">
+            <p className="font-medium mb-1">Export All Data</p>
+            <p className="text-muted-foreground">
+              No columns have been filtered. All {totalColumns} columns will be exported. 
+              Use the Column Selection tab to filter specific columns before exporting.
+            </p>
+          </div>
+        </div>
+      )}
     </Card>
   );
 };
