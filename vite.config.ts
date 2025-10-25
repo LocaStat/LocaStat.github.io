@@ -4,10 +4,11 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/",
+  base: "/locastat.github.io/",
   server: {
     host: "::",
     port: 8080,
+    historyApiFallback: true,
   },
   plugins: [react()],
   resolve: {
