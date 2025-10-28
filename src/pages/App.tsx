@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FileUploadZone } from "@/components/FileUploadZone";
@@ -34,9 +34,80 @@ const App = () => {
   const [excludedColumns, setExcludedColumns] = useState<string[]>([]);
   const [showExitDialog, setShowExitDialog] = useState(false);
 
+  // Load persisted data on component mount
+  useEffect(() => {
+    const loadPersistedData = () => {
+      try {
+        // Load parsed data
+        const savedParsedData = sessionStorage.getItem("parsedData");
+        if (savedParsedData) {
+          const parsed = JSON.parse(savedParsedData);
+          setParsedData(parsed);
+        }
+
+        // Load app state
+        const savedActiveTab = sessionStorage.getItem("activeTab");
+        if (savedActiveTab) {
+          setActiveTab(savedActiveTab);
+        }
+
+        const savedIncludedColumns = sessionStorage.getItem("includedColumns");
+        if (savedIncludedColumns) {
+          setIncludedColumns(JSON.parse(savedIncludedColumns));
+        }
+
+        const savedExcludedColumns = sessionStorage.getItem("excludedColumns");
+        if (savedExcludedColumns) {
+          setExcludedColumns(JSON.parse(savedExcludedColumns));
+        }
+      } catch (error) {
+        console.error("Error loading persisted data:", error);
+        // Clear corrupted data
+        sessionStorage.clear();
+      }
+    };
+
+    loadPersistedData();
+  }, []);
+
+  // Persist activeTab changes
+  useEffect(() => {
+    if (parsedData) {
+      sessionStorage.setItem("activeTab", activeTab);
+    }
+  }, [activeTab, parsedData]);
+
+  // Persist includedColumns changes
+  useEffect(() => {
+    if (parsedData) {
+      if (includedColumns.length > 0) {
+        sessionStorage.setItem("includedColumns", JSON.stringify(includedColumns));
+      } else {
+        sessionStorage.removeItem("includedColumns");
+      }
+    }
+  }, [includedColumns, parsedData]);
+
+  // Persist excludedColumns changes
+  useEffect(() => {
+    if (parsedData) {
+      if (excludedColumns.length > 0) {
+        sessionStorage.setItem("excludedColumns", JSON.stringify(excludedColumns));
+      } else {
+        sessionStorage.removeItem("excludedColumns");
+      }
+    }
+  }, [excludedColumns, parsedData]);
+
   const handleFileUpload = (data: ParsedData) => {
     setParsedData(data);
     setActiveTab("preview");
+    // Clear previous column selections when new file is uploaded
+    setIncludedColumns([]);
+    setExcludedColumns([]);
+    // Clear previous column selections from sessionStorage
+    sessionStorage.removeItem("includedColumns");
+    sessionStorage.removeItem("excludedColumns");
     toast.success("File uploaded successfully!");
   };
 
@@ -45,7 +116,11 @@ const App = () => {
     setActiveTab("preview");
     setIncludedColumns([]);
     setExcludedColumns([]);
-    sessionStorage.clear();
+    // Clear all persisted data
+    sessionStorage.removeItem("parsedData");
+    sessionStorage.removeItem("activeTab");
+    sessionStorage.removeItem("includedColumns");
+    sessionStorage.removeItem("excludedColumns");
     toast.info("Data cleared");
   };
 

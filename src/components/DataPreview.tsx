@@ -56,46 +56,46 @@ export const DataPreview = ({ data, includedColumns, excludedColumns }: DataPrev
 
   return (
     <div className="space-y-6">
-      {/* Status Badge */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="bg-accent/20 p-2 rounded-lg">
-            <CheckCircle2 className="h-6 w-6 text-accent" />
-          </div>
-          <div>
-            <h3 className="font-semibold text-lg">File Ready for Processing</h3>
-            <p className="text-sm text-muted-foreground">Your data has been successfully uploaded</p>
-          </div>
-        </div>
-      </div>
-
       {/* Metadata */}
       <Card className="p-6">
-        <div className="flex items-start gap-4">
-          <div className="bg-primary/10 p-3 rounded-lg">
-            <FileText className="h-6 w-6 text-primary" />
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex items-start gap-4 flex-1">
+            <div className="bg-primary/10 p-3 rounded-lg">
+              <FileText className="h-6 w-6 text-primary" />
+            </div>
+            <div className="flex-1">
+              <h4 className="font-semibold mb-3">{data.fileName}</h4>
+              <div className="flex flex-wrap gap-3">
+                <Badge variant="secondary" className="text-sm">
+                  <TableIcon className="h-3 w-3 mr-1" />
+                  {displayData.rows.toLocaleString()} rows
+                </Badge>
+                <Badge variant="secondary" className="text-sm">
+                  {displayData.columns} columns
+                </Badge>
+                {data.sheetName && (
+                  <Badge variant="outline" className="text-sm">
+                    Sheet: {data.sheetName}
+                  </Badge>
+                )}
+                {viewMode === 'selected' && (
+                  <Badge variant="default" className="text-sm">
+                    <Eye className="h-3 w-3 mr-1" />
+                    Selected View
+                  </Badge>
+                )}
+              </div>
+            </div>
           </div>
-          <div className="flex-1">
-            <h4 className="font-semibold mb-3">{data.fileName}</h4>
-            <div className="flex flex-wrap gap-3">
-              <Badge variant="secondary" className="text-sm">
-                <TableIcon className="h-3 w-3 mr-1" />
-                {displayData.rows.toLocaleString()} rows
-              </Badge>
-              <Badge variant="secondary" className="text-sm">
-                {displayData.columns} columns
-              </Badge>
-              {data.sheetName && (
-                <Badge variant="outline" className="text-sm">
-                  Sheet: {data.sheetName}
-                </Badge>
-              )}
-              {viewMode === 'selected' && (
-                <Badge variant="default" className="text-sm">
-                  <Eye className="h-3 w-3 mr-1" />
-                  Selected View
-                </Badge>
-              )}
+          
+          {/* Status Badge */}
+          <div className="flex items-center gap-3">
+            <div className="bg-accent/20 p-2 rounded-lg">
+              <CheckCircle2 className="h-6 w-6 text-accent" />
+            </div>
+            <div className="text-right">
+              <h3 className="font-semibold text-lg">File Ready for Processing</h3>
+              <p className="text-sm text-muted-foreground">Your data has been successfully uploaded</p>
             </div>
           </div>
         </div>
@@ -105,15 +105,17 @@ export const DataPreview = ({ data, includedColumns, excludedColumns }: DataPrev
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-4">
+            <div>
             <h4 className="font-semibold">
               Data Preview (Top 5 Rows)
+
+            </h4>
               {viewMode === 'selected' && (
                 <span className="text-sm font-normal text-muted-foreground ml-2">
-                  - Selected Columns Only
+                  Selected Columns Only
                 </span>
               )}
-            </h4>
-            
+              </div>
             {/* View Toggle */}
             <TooltipProvider>
               <Tooltip>
