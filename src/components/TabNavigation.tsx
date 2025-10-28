@@ -39,6 +39,14 @@ export const TabNavigation = ({
           <span className="sm:hidden">Columns</span>
         </TabsTrigger>
         <TabsTrigger
+          value="export"
+          className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+        >
+          <Download className="h-4 w-4" />
+          <span className="hidden sm:inline">Export</span>
+          <span className="sm:hidden">Export</span>
+        </TabsTrigger>
+        <TabsTrigger
           value="plots"
           className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
         >
@@ -53,14 +61,6 @@ export const TabNavigation = ({
           <Calculator className="h-4 w-4" />
           <span className="hidden sm:inline">Analysis</span>
           <span className="sm:hidden">Stats</span>
-        </TabsTrigger>
-        <TabsTrigger
-          value="export"
-          className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-        >
-          <Download className="h-4 w-4" />
-          <span className="hidden sm:inline">Export</span>
-          <span className="sm:hidden">Export</span>
         </TabsTrigger>
       </TabsList>
 

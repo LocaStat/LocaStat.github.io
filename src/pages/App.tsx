@@ -15,6 +15,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import { Github, Heart } from "lucide-react";
 
 export interface ParsedData {
   fileName: string;
@@ -151,11 +152,28 @@ const App = () => {
               </h1>
             </Link>
           </div>
-          {parsedData && (
-            <Button variant="outline" size="sm" onClick={handleClearData}>
-              Clear Data
+          
+          {/* Header Actions */}
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => window.open("https://github.com/LocaStat/LocaStat.github.io", "_blank")}
+              className="flex items-center gap-2"
+            >
+              <Github className="h-4 w-4" />
+              <span className="hidden sm:inline">GitHub</span>
             </Button>
-          )}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => window.open("https://buymeacoffee.com/LocaStat", "_blank")}
+              className="flex items-center gap-2"
+            >
+              <Heart className="h-4 w-4 text-red-500" />
+              <span className="hidden sm:inline">Support</span>
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -185,6 +203,7 @@ const App = () => {
               data={parsedData} 
               includedColumns={includedColumns}
               excludedColumns={excludedColumns}
+              onClearData={handleClearData}
             />
             <TabNavigation
               activeTab={activeTab}

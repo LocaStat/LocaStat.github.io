@@ -1,8 +1,19 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { CheckCircle2, FileText, Table as TableIcon, Eye } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { CheckCircle2, FileText, Table as TableIcon, Eye, X } from "lucide-react";
 import { ParsedData } from "@/pages/App";
 import { useState } from "react";
 
@@ -10,12 +21,23 @@ interface DataPreviewProps {
   data: ParsedData;
   includedColumns: string[];
   excludedColumns: string[];
+  onClearData: () => void;
 }
 
-export const DataPreview = ({ data, includedColumns, excludedColumns }: DataPreviewProps) => {
+export const DataPreview = ({ data, includedColumns, excludedColumns, onClearData }: DataPreviewProps) => {
   const [viewMode, setViewMode] = useState<'uploaded' | 'selected'>('uploaded');
+  const [showClearDialog, setShowClearDialog] = useState(false);
   const hasMoreColumns = data.headers.length > 50;
   const hasSelectedColumns = includedColumns.length > 0;
+  
+  const handleClearClick = () => {
+    setShowClearDialog(true);
+  };
+
+  const handleConfirmClear = () => {
+    setShowClearDialog(false);
+    onClearData();
+  };
   
   // Get the data to display based on view mode
   const getDisplayData = () => {
@@ -88,15 +110,26 @@ export const DataPreview = ({ data, includedColumns, excludedColumns }: DataPrev
             </div>
           </div>
           
-          {/* Status Badge */}
-          <div className="flex items-center gap-3">
-            <div className="bg-accent/20 p-2 rounded-lg">
-              <CheckCircle2 className="h-6 w-6 text-accent" />
+          {/* Status Badge and Clear Button */}
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
+              <div className="bg-accent/20 p-2 rounded-lg">
+                <CheckCircle2 className="h-6 w-6 text-accent" />
+              </div>
+              <div className="text-right">
+                <h3 className="font-semibold text-lg">File Ready for Processing</h3>
+                <p className="text-sm text-muted-foreground">Your data has been successfully uploaded</p>
+              </div>
             </div>
-            <div className="text-right">
-              <h3 className="font-semibold text-lg">File Ready for Processing</h3>
-              <p className="text-sm text-muted-foreground">Your data has been successfully uploaded</p>
-            </div>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handleClearClick}
+              className="flex items-center gap-2 hover:bg-destructive hover:text-destructive-foreground hover:border-destructive transition-colors"
+            >
+              <X className="h-4 w-4" />
+              Clear Data
+            </Button>
           </div>
         </div>
       </Card>
@@ -219,6 +252,33 @@ export const DataPreview = ({ data, includedColumns, excludedColumns }: DataPrev
           </div>
         )}
       </Card>
+
+      {/* Clear Data Confirmation Dialog */}
+      <AlertDialog open={showClearDialog} onOpenChange={setShowClearDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Clear All Data</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to clear all uploaded data? This action cannot be undone and will remove:
+              <ul className="mt-2 space-y-1 text-sm">
+                <li>• The uploaded file ({data.fileName})</li>
+                <li>• All data previews and processing</li>
+                <li>• Any column selections you've made</li>
+                <li>• All analysis results and exports</li>
+              </ul>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleConfirmClear}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Clear All Data
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

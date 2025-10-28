@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Lock, Zap, TrendingUp, FileUp, BarChart3, Shield, Cloud } from "lucide-react";
+import { Lock, Zap, TrendingUp, FileUp, BarChart3, Shield, Cloud, Github, Heart } from "lucide-react";
 import heroImage from "@/assets/hero-illustration.jpg";
 
 const Index = () => {
@@ -37,11 +37,32 @@ const Index = () => {
               LocaStat 
             </h1>
           </div>
-          <Link to="/app">
-            <Button variant="ghost" size="sm">
-              Launch App
+          
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => window.open("https://github.com/your-username/LocaStat", "_blank")}
+              className="flex items-center gap-2"
+            >
+              <Github className="h-4 w-4" />
+              <span className="hidden sm:inline">GitHub</span>
             </Button>
-          </Link>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => window.open("https://buymeacoffee.com/your-username", "_blank")}
+              className="flex items-center gap-2"
+            >
+              <Heart className="h-4 w-4 text-red-500" />
+              <span className="hidden sm:inline">Support</span>
+            </Button>
+            <Link to="/app">
+              <Button variant="ghost" size="sm">
+                Launch App
+              </Button>
+            </Link>
+          </div>
         </div>
       </header>
 

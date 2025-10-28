@@ -6,7 +6,7 @@ A modern offline data preprocessing and analysis tool for scientific researchers
 
 - **Offline Data Processing**: Work with your data locally without sending it to external servers
 - **Multiple File Formats**: Support for CSV, Excel, and other common data formats
-- **Interactive Data Exploration**: Built-in tools for data visualization and analysis
+- **Interactive Data Exploration**: Built-in tools for data visualization and analysis *(Coming soon)*
 - **Modern UI**: Clean, responsive interface built with React and Tailwind CSS
 - **Privacy-First**: All data processing happens locally on your machine
 
