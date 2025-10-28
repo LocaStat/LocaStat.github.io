@@ -15,8 +15,8 @@ export const exportToCSV = (data: ParsedData, includedColumns: string[]): string
   // Get filtered headers
   const filteredHeaders = columnIndices.map(index => data.headers[index] || `Column ${index + 1}`);
   
-  // Get all data rows (not just preview)
-  const allData = data.preview; // For now, using preview data. In a real app, you'd load all data
+  // Get all data rows
+  const allData = data.allData;
   
   // Create CSV content
   const csvContent = [
@@ -52,7 +52,7 @@ export const exportToJSON = (data: ParsedData, includedColumns: string[]): strin
   const filteredHeaders = columnIndices.map(index => data.headers[index] || `Column ${index + 1}`);
   
   // Get all data rows
-  const allData = data.preview; // For now, using preview data
+  const allData = data.allData;
   
   // Convert to array of objects
   const jsonData = allData.map(row => {

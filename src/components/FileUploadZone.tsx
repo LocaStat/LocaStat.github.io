@@ -84,8 +84,9 @@ export const FileUploadZone = ({ onFileUpload }: FileUploadZoneProps) => {
           }
 
           const headers = data[0];
-          const preview = data.slice(1, 6); // Top 5 rows
-          const rows = data.length - 1;
+          const allData = data.slice(1); // All data rows
+          const preview = allData.slice(0, 5); // Top 5 rows for preview
+          const rows = allData.length;
           const columns = headers.length;
 
           const parsedData: ParsedData = {
@@ -93,7 +94,8 @@ export const FileUploadZone = ({ onFileUpload }: FileUploadZoneProps) => {
             rows,
             columns,
             headers,
-            preview: preview.map(row => row.slice(0, 10)), // First 10 columns
+            preview: preview.map(row => row.slice(0, 50)), // First 50 columns for preview
+            allData: allData.map(row => row.slice(0, 50)), // All rows, first 50 columns
           };
 
           // Store in sessionStorage
@@ -163,8 +165,9 @@ export const FileUploadZone = ({ onFileUpload }: FileUploadZoneProps) => {
       }
 
       const headers = jsonData[0].map(h => String(h || ""));
-      const preview = jsonData.slice(1, 6);
-      const rows = jsonData.length - 1;
+      const allData = jsonData.slice(1); // All data rows
+      const preview = allData.slice(0, 5); // Top 5 rows for preview
+      const rows = allData.length;
       const columns = headers.length;
 
       const parsedData: ParsedData = {
@@ -172,7 +175,8 @@ export const FileUploadZone = ({ onFileUpload }: FileUploadZoneProps) => {
         rows,
         columns,
         headers,
-        preview: preview.map(row => row.slice(0, 10).map(cell => String(cell || ""))),
+        preview: preview.map(row => row.slice(0, 50).map(cell => String(cell || ""))),
+        allData: allData.map(row => row.slice(0, 50).map(cell => String(cell || ""))),
         sheetName,
       };
 

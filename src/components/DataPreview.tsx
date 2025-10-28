@@ -14,20 +14,22 @@ interface DataPreviewProps {
 
 export const DataPreview = ({ data, includedColumns, excludedColumns }: DataPreviewProps) => {
   const [viewMode, setViewMode] = useState<'uploaded' | 'selected'>('uploaded');
-  const hasMoreColumns = data.headers.length > 10;
+  const hasMoreColumns = data.headers.length > 50;
   const hasSelectedColumns = includedColumns.length > 0;
   
   // Get the data to display based on view mode
   const getDisplayData = () => {
     if (viewMode === 'uploaded') {
+      // Limit to first 50 columns for uploaded view
+      const maxColumns = Math.min(50, data.headers.length);
       return {
-        headers: data.headers,
-        preview: data.preview,
+        headers: data.headers.slice(0, maxColumns),
+        preview: data.preview.map(row => row.slice(0, maxColumns)),
         columns: data.columns,
         rows: data.rows
       };
     } else {
-      // Filter data based on included columns
+      // Filter data based on included columns, limit to 50 maximum
       const headerIndices = includedColumns.map(col => {
         const index = data.headers.findIndex(header => 
           (header || `Column ${data.headers.indexOf(header) + 1}`) === col
@@ -35,15 +37,16 @@ export const DataPreview = ({ data, includedColumns, excludedColumns }: DataPrev
         return index;
       }).filter(index => index !== -1);
       
-      const filteredHeaders = headerIndices.map(index => data.headers[index]);
+      const maxColumns = Math.min(50, headerIndices.length);
+      const filteredHeaders = headerIndices.slice(0, maxColumns).map(index => data.headers[index]);
       const filteredPreview = data.preview.map(row => 
-        headerIndices.map(index => row[index])
+        headerIndices.slice(0, maxColumns).map(index => row[index])
       );
       
       return {
         headers: filteredHeaders,
         preview: filteredPreview,
-        columns: filteredHeaders.length,
+        columns: includedColumns.length, // Show total selected, not limited
         rows: data.rows
       };
     }
@@ -153,13 +156,20 @@ export const DataPreview = ({ data, includedColumns, excludedColumns }: DataPrev
           <div className="flex items-center gap-2">
             {hasMoreColumns && viewMode === 'uploaded' && (
               <Badge variant="outline" className="text-xs">
-                Showing first 10 of {data.columns} columns
+                Showing first 50 of {data.columns} columns
               </Badge>
             )}
             {viewMode === 'selected' && (
-              <Badge variant="default" className="text-xs">
-                {displayData.columns} selected columns
-              </Badge>
+              <>
+                <Badge variant="default" className="text-xs">
+                  {displayData.columns} selected columns
+                </Badge>
+                {includedColumns.length > 50 && (
+                  <Badge variant="outline" className="text-xs">
+                    Showing first 50 of {includedColumns.length} selected
+                  </Badge>
+                )}
+              </>
             )}
           </div>
         </div>
@@ -168,7 +178,7 @@ export const DataPreview = ({ data, includedColumns, excludedColumns }: DataPrev
           <table className="w-full text-sm">
             <thead className="bg-secondary/50 sticky top-0">
               <tr>
-                {displayData.headers.slice(0, 10).map((header, idx) => (
+                {displayData.headers.map((header, idx) => (
                   <th
                     key={idx}
                     className="px-4 py-3 text-left font-semibold border-b border-border whitespace-nowrap"

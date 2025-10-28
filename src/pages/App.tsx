@@ -22,6 +22,7 @@ export interface ParsedData {
   columns: number;
   headers: string[];
   preview: string[][];
+  allData: string[][]; // Full dataset for export
   sheetName?: string;
 }
 
