@@ -100,6 +100,8 @@ const App = () => {
     }
   }, [excludedColumns, parsedData]);
 
+  // Typeform script is loaded globally in index.html
+
   const handleFileUpload = (data: ParsedData) => {
     setParsedData(data);
     setActiveTab("preview");
@@ -217,6 +219,8 @@ const App = () => {
           </div>
         )}
       </main>
+
+      {/* Typeform embed moved into the Feedback tab */}
 
       {/* Exit Confirmation Dialog */}
       <AlertDialog open={showExitDialog} onOpenChange={setShowExitDialog}>

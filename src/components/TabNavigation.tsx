@@ -29,7 +29,7 @@ export const TabNavigation = ({
 }: TabNavigationProps) => {
   return (
     <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
-      <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 h-auto gap-2 bg-transparent">
+      <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 h-auto gap-2 bg-transparent">
         <TabsTrigger
           value="columns"
           className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
@@ -61,6 +61,14 @@ export const TabNavigation = ({
           <Calculator className="h-4 w-4" />
           <span className="hidden sm:inline">Analysis</span>
           <span className="sm:hidden">Stats</span>
+        </TabsTrigger>
+        <TabsTrigger
+          value="feedback"
+          className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+        >
+          <Info className="h-4 w-4" />
+          <span className="hidden sm:inline">Feedback</span>
+          <span className="sm:hidden">Feedback</span>
         </TabsTrigger>
       </TabsList>
 
@@ -127,6 +135,26 @@ export const TabNavigation = ({
             parsedData={parsedData}
             includedColumns={includedColumns}
           />
+        </TabsContent>
+
+        <TabsContent value="feedback" className="space-y-4">
+          <Card className="p-6">
+            <div className="mb-6">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="bg-primary/10 p-3 rounded-lg">
+                  <Info className="h-6 w-6 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold">Feedback</h3>
+                  <p className="text-muted-foreground">Help us improve LocaStat by sharing your thoughts</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="border border-border rounded-lg p-4">
+              <div data-tf-live="01K8TQCZM879WVVMM0M010X22J"></div>
+            </div>
+          </Card>
         </TabsContent>
       </div>
     </Tabs>

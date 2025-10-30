@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Lock, Zap, TrendingUp, FileUp, BarChart3, Shield, Cloud, Github, Heart } from "lucide-react";
+import { Lock, Zap, TrendingUp, FileUp, BarChart3, Shield, Cloud, Github, Heart, TabletSmartphone } from "lucide-react";
 import heroImage from "@/assets/hero-illustration.jpg";
 
 const Index = () => {
@@ -21,9 +21,9 @@ const Index = () => {
       description: "Quick CSV and Excel upload with instant preview. Start analyzing in seconds.",
     },
     {
-      icon: TrendingUp,
-      title: "Expandable",
-      description: "Foundation for plots, statistical analysis, and advanced data exploration.",
+      icon: TabletSmartphone,
+      title: "Mobile Friendly",
+      description: "No one needs to think about work outside the lab. But we still do! Quick data exploration on your fingertips.",
     },
   ];
 
@@ -33,9 +33,10 @@ const Index = () => {
       <header className="border-b border-border/40 backdrop-blur-sm sticky top-0 z-50 bg-background/80">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">
-              LocaStat 
-            </h1>
+              <img src="/logo.png" alt="LocaStat Logo" className="h-8 w-8" />
+              <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">
+                LocaStat 
+              </h1>
           </div>
           
           <div className="flex items-center gap-2">
