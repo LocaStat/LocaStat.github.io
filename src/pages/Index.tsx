@@ -42,8 +42,8 @@ const Index = () => {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => window.open("https://github.com/your-username/LocaStat", "_blank")}
-              className="flex items-center gap-2"
+              onClick={() => window.open("https://github.com/LocaStat/LocaStat.github.io", "_blank")}
+              className="flex items-center gap-2 bg-zinc-50 text-zinc-900 border-zinc-200 md:bg-background md:text-foreground md:border-input md:hover:bg-zinc-50 md:hover:text-zinc-900 md:hover:border-zinc-200"
             >
               <Github className="h-4 w-4" />
               <span className="hidden sm:inline">GitHub</span>
@@ -51,14 +51,14 @@ const Index = () => {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => window.open("https://buymeacoffee.com/your-username", "_blank")}
-              className="flex items-center gap-2"
+              onClick={() => window.open("https://buymeacoffee.com/LocaStat", "_blank")}
+              className="flex items-center gap-2 bg-rose-50 text-rose-700 border-rose-300 md:bg-background md:text-foreground md:border-input md:hover:bg-rose-100 md:hover:text-rose-700 md:hover:border-rose-300"
             >
               <Heart className="h-4 w-4 text-red-500" />
               <span className="hidden sm:inline">Support</span>
             </Button>
             <Link to="/app">
-              <Button variant="ghost" size="sm">
+              <Button variant="hero" size="sm">
                 Launch App
               </Button>
             </Link>
@@ -69,7 +69,7 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-[var(--gradient-hero)] pointer-events-none" />
-        <div className="container mx-auto px-4 py-12 md:py-16 relative">
+        <div className="container mx-auto px-4 py-6 md:py-8 relative">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <div className="inline-block">
@@ -172,7 +172,7 @@ const Index = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
               <img src="/logo.png" alt="LocaStat Logo" className="h-6 w-6" />
-              <span className="font-semibold">LocaStat Offline</span>
+              <span className="font-semibold">LocaStat</span>
             </div>
             <div className="text-sm text-muted-foreground">
               Built for researchers, by researchers. 100% offline, 100% private.

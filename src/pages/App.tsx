@@ -159,7 +159,7 @@ const App = () => {
               variant="outline"
               size="sm"
               onClick={() => window.open("https://github.com/LocaStat/LocaStat.github.io", "_blank")}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 bg-zinc-50 text-zinc-900 border-zinc-200 md:bg-background md:text-foreground md:border-input md:hover:bg-zinc-50 md:hover:text-zinc-900 md:hover:border-zinc-200"
             >
               <Github className="h-4 w-4" />
               <span className="hidden sm:inline">GitHub</span>
@@ -168,7 +168,7 @@ const App = () => {
               variant="outline"
               size="sm"
               onClick={() => window.open("https://buymeacoffee.com/LocaStat", "_blank")}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 bg-rose-50 text-rose-700 border-rose-300 md:bg-background md:text-foreground md:border-input md:hover:bg-rose-100 md:hover:text-rose-700 md:hover:border-rose-300"
             >
               <Heart className="h-4 w-4 text-red-500" />
               <span className="hidden sm:inline">Support</span>
@@ -178,7 +178,7 @@ const App = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-4">
         {!parsedData ? (
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-8">
