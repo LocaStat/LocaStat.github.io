@@ -59,7 +59,7 @@ const Index = () => {
             </Button>
             <Link to="/app">
               <Button variant="hero" size="sm">
-                Launch App
+                Try Now
               </Button>
             </Link>
           </div>
@@ -72,21 +72,28 @@ const Index = () => {
         <div className="container mx-auto px-4 py-6 md:py-8 relative">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <div className="inline-block">
-                <span className="text-sm font-semibold text-primary bg-primary/10 px-4 py-2 rounded-full">
-                  Offline-First Data Tool
-                </span>
-              </div>
+
               <h2 className="text-4xl md:text-6xl font-bold leading-tight">
-                Offline Data Exploration for{" "}
+                Exploratory Data Analysis for{" "}
                 <span className="bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">
                   Scientists
                 </span>
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                A modern, privacy-focused tool for researchers to explore, analyze, and prepare
+                A modern, privacy-focused tool for researchers to explore, analyze, and visualize
                 their data - completely offline. Your data never leaves your device.
               </p>
+              <div className="inline-block flex flex-row gap-2">
+              <span className="text-sm font-semibold text-primary bg-primary/10 px-4 py-2 rounded-full">
+                  No-Code
+                </span>
+                <span className="text-sm font-semibold text-primary bg-primary/10 px-4 py-2 rounded-full">
+                  Offline
+                </span>
+                <span className="text-sm font-semibold text-primary bg-primary/10 px-4 py-2 rounded-full">
+                  Secure
+                </span>
+              </div>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Link to="/app" className="block w-full sm:w-auto">
                   <Button variant="hero" size="xl" className="w-full sm:w-auto group">
@@ -151,11 +158,11 @@ const Index = () => {
               <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
                 Upload your data and begin analyzing in seconds. No sign-up, no cloud storage, no hassle.
               </p>
-              <Link to="/app">
+              <Link to="/app" className="block w-full sm:w-auto">
                 <Button
                   size="xl"
                   variant="secondary"
-                  className="bg-white text-primary hover:bg-white/90 hover:scale-105"
+                  className="bg-white text-primary hover:bg-white/90 md:hover:scale-105 w-full sm:w-auto"
                 >
                   Try LocaStat Now
                   <BarChart3 className="ml-2 h-5 w-5" />
