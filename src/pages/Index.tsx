@@ -85,7 +85,7 @@ const Index = () => {
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 A modern, privacy-focused tool for researchers to explore, analyze, and prepare
-                their data—completely offline. Your data never leaves your device.
+                their data - completely offline. Your data never leaves your device.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Link to="/app">
