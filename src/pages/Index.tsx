@@ -88,7 +88,7 @@ const Index = () => {
                 their data - completely offline. Your data never leaves your device.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Link to="/app">
+                <Link to="/app" className="block w-full sm:w-auto">
                   <Button variant="hero" size="xl" className="w-full sm:w-auto group">
                     Start Analyzing Data
                     <FileUp className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
