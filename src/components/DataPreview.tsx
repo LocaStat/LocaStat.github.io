@@ -159,18 +159,22 @@ export const DataPreview = ({ data, includedColumns, excludedColumns, onClearDat
               )}
               </div>
                 <CollapsibleTrigger asChild>
-                  <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                  <Button variant="ghost" size="sm" className="h-6 w-6 p-0 hover:bg-primary hover:text-primary-foreground group">
                     {open ? (
-                      <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                      <ChevronUp className="h-4 w-4 text-muted-foreground group-hover:text-primary-foreground" />
                     ) : (
-                      <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                      <ChevronDown className="h-4 w-4 text-muted-foreground group-hover:text-primary-foreground" />
                     )}
                   </Button>
                 </CollapsibleTrigger>
               </div>
 
-              {/* View Toggle - always visible */}
-              <TooltipProvider>
+            </div>
+            
+            {/* Badges - always visible */}
+            <div className="flex-col items-center">
+            <div className="flex items-center gap-2 mb-2">
+            <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div>
@@ -206,10 +210,9 @@ export const DataPreview = ({ data, includedColumns, excludedColumns, onClearDat
                   )}
                 </Tooltip>
               </TooltipProvider>
-            </div>
-            
-            {/* Badges - always visible */}
-            <div className="flex items-center gap-2">
+              </div>
+
+            <div className="flex justify-center items-center gap-2">
               {hasMoreColumns && viewMode === 'uploaded' && (
                 <Badge variant="outline" className="text-xs">
                   Showing first 50 of {data.columns} columns
@@ -228,6 +231,9 @@ export const DataPreview = ({ data, includedColumns, excludedColumns, onClearDat
                 </>
               )}
             </div>
+            </div>
+                          {/* View Toggle - always visible */}
+
           </div>
           
           <CollapsibleContent>
