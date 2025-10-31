@@ -64,11 +64,6 @@ const SiteHeader = () => {
             <Heart className="h-4 w-4 text-red-500" />
             <span className="hidden sm:inline">Support</span>
           </Button>
-          <Link to="/app">
-            <Button variant="hero" size="sm">
-              Try Now
-            </Button>
-          </Link>
         </div>
       </div>
 
