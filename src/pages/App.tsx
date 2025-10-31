@@ -34,6 +34,7 @@ const App = () => {
   const [includedColumns, setIncludedColumns] = useState<string[]>([]);
   const [excludedColumns, setExcludedColumns] = useState<string[]>([]);
   const [showExitDialog, setShowExitDialog] = useState(false);
+  const [isDataPreviewCollapsed, setIsDataPreviewCollapsed] = useState(false);
 
   // Load persisted data on component mount
   useEffect(() => {
@@ -100,6 +101,15 @@ const App = () => {
     }
   }, [excludedColumns, parsedData]);
 
+  // Collapse Data Preview when Column Selection or Data Visualizations are accessed
+  useEffect(() => {
+    if (activeTab === "columns" || activeTab === "plots") {
+      setIsDataPreviewCollapsed(true);
+    } else if (activeTab === "preview") {
+      setIsDataPreviewCollapsed(false);
+    }
+  }, [activeTab]);
+
   // Typeform script is loaded globally in index.html
 
   const handleFileUpload = (data: ParsedData) => {
@@ -143,41 +153,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border/40 backdrop-blur-sm sticky top-0 z-50 bg-background/95">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link to="/" onClick={handleLogoClick} className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
-              <img src="/logo.png" alt="LocaStat Logo" className="h-8 w-8" />
-              <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">
-                LocaStat 
-              </h1>
-            </Link>
-          </div>
-          
-          {/* Header Actions */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => window.open("https://github.com/LocaStat/LocaStat.github.io", "_blank")}
-              className="flex items-center gap-2 bg-zinc-50 text-zinc-900 border-zinc-200 md:bg-background md:text-foreground md:border-input md:hover:bg-zinc-50 md:hover:text-zinc-900 md:hover:border-zinc-200"
-            >
-              <Github className="h-4 w-4" />
-              <span className="hidden sm:inline">GitHub</span>
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => window.open("https://buymeacoffee.com/LocaStat", "_blank")}
-              className="flex items-center gap-2 bg-rose-50 text-rose-700 border-rose-300 md:bg-background md:text-foreground md:border-input md:hover:bg-rose-100 md:hover:text-rose-700 md:hover:border-rose-300"
-            >
-              <Heart className="h-4 w-4 text-red-500" />
-              <span className="hidden sm:inline">Support</span>
-            </Button>
-          </div>
-        </div>
-      </header>
+      
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-4">
@@ -206,15 +182,22 @@ const App = () => {
               includedColumns={includedColumns}
               excludedColumns={excludedColumns}
               onClearData={handleClearData}
+              isCollapsed={isDataPreviewCollapsed}
             />
             <TabNavigation
               activeTab={activeTab}
-              onTabChange={setActiveTab}
+              onTabChange={(tab) => {
+                setActiveTab(tab);
+                if (tab === "columns" || tab === "plots") {
+                  setIsDataPreviewCollapsed(true);
+                }
+              }}
               parsedData={parsedData}
               includedColumns={includedColumns}
               excludedColumns={excludedColumns}
               onIncludedColumnsChange={setIncludedColumns}
               onExcludedColumnsChange={setExcludedColumns}
+              onVisualizationClick={() => setIsDataPreviewCollapsed(true)}
             />
           </div>
         )}

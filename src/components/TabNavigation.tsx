@@ -7,6 +7,8 @@ import { Columns3, BarChart3, Calculator, Download, Info, Search, Check, FileDow
 import { ParsedData } from "@/pages/App";
 import { useState, useEffect } from "react";
 import { downloadCSV, downloadJSON, downloadExcel } from "@/lib/exportUtils";
+import { HistogramPlot, ChartData } from "@/components/HistogramPlot";
+import { ChartCarousel } from "@/components/ChartCarousel";
 
 interface TabNavigationProps {
   activeTab: string;
@@ -16,6 +18,7 @@ interface TabNavigationProps {
   excludedColumns: string[];
   onIncludedColumnsChange: (columns: string[]) => void;
   onExcludedColumnsChange: (columns: string[]) => void;
+  onVisualizationClick?: () => void;
 }
 
 export const TabNavigation = ({ 
@@ -25,8 +28,47 @@ export const TabNavigation = ({
   includedColumns, 
   excludedColumns, 
   onIncludedColumnsChange, 
-  onExcludedColumnsChange 
+  onExcludedColumnsChange,
+  onVisualizationClick 
 }: TabNavigationProps) => {
+  const [charts, setCharts] = useState<ChartData[]>([]);
+  const [selectedPlotType, setSelectedPlotType] = useState<string | null>(null);
+
+  // Load persisted charts on component mount
+  useEffect(() => {
+    try {
+      const savedCharts = sessionStorage.getItem("charts");
+      if (savedCharts) {
+        setCharts(JSON.parse(savedCharts));
+      }
+    } catch (error) {
+      console.error("Error loading persisted charts:", error);
+      sessionStorage.removeItem("charts");
+    }
+  }, []);
+
+  // Persist charts changes
+  useEffect(() => {
+    if (charts.length > 0) {
+      sessionStorage.setItem("charts", JSON.stringify(charts));
+    } else {
+      sessionStorage.removeItem("charts");
+    }
+  }, [charts]);
+
+  // Reset selected plot type when tab changes
+  useEffect(() => {
+    setSelectedPlotType(null);
+  }, [activeTab]);
+
+  const handleChartCreate = (chart: ChartData) => {
+    setCharts((prev) => [chart, ...prev]);
+  };
+
+  const handleRemoveChart = (chartId: string) => {
+    setCharts((prev) => prev.filter((chart) => chart.id !== chartId));
+  };
+
   return (
     <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
       <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 h-auto gap-2 bg-transparent">
@@ -84,23 +126,65 @@ export const TabNavigation = ({
         </TabsContent>
 
         <TabsContent value="plots" className="space-y-4">
-          <PlaceholderTab
-            title="Plots & Visualization"
-            description="Generate various charts and visualizations from your data"
-            icon={BarChart3}
-          >
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {["Histogram", "Scatter Plot", "Line Chart", "Box Plot"].map((type) => (
-                <div
-                  key={type}
-                  className="p-4 border border-border rounded-lg text-center hover:border-primary/50 transition-colors"
-                >
-                  <BarChart3 className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                  <p className="text-sm font-medium">{type}</p>
-                </div>
-              ))}
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-2xl font-bold mb-2">Visualizations</h3>
+              <p className="text-muted-foreground">
+                Create charts and visualizations from your data. All charts are displayed in the carousel below.
+              </p>
             </div>
-          </PlaceholderTab>
+            
+            {!selectedPlotType ? (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {["Histogram", "Scatter Plot", "Line Chart", "Box Plot"].map((type) => (
+                  <div
+                    key={type}
+                    className="p-4 border border-border rounded-lg text-center hover:border-primary/50 transition-colors cursor-pointer"
+                    onClick={() => {
+                      setSelectedPlotType(type);
+                      onVisualizationClick?.();
+                    }}
+                  >
+                    <BarChart3 className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                    <p className="text-sm font-medium">{type}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <Button
+                  variant="outline"
+                  onClick={() => setSelectedPlotType(null)}
+                  className="mb-4"
+                >
+                  ← Back to Plot Types
+                </Button>
+                
+                {selectedPlotType === "Histogram" && (
+                  <HistogramPlot 
+                    parsedData={parsedData} 
+                    onChartCreate={handleChartCreate}
+                  />
+                )}
+                
+                {selectedPlotType !== "Histogram" && (
+                  <Card className="p-6">
+                    <div className="text-center text-muted-foreground py-8">
+                      <p className="text-lg font-medium mb-2">{selectedPlotType}</p>
+                      <p className="text-sm">Coming soon</p>
+                    </div>
+                  </Card>
+                )}
+              </div>
+            )}
+            
+            {charts.length > 0 && (
+              <ChartCarousel 
+                charts={charts} 
+                onRemoveChart={handleRemoveChart}
+              />
+            )}
+          </div>
         </TabsContent>
 
         <TabsContent value="analysis" className="space-y-4">
