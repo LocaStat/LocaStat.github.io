@@ -1,0 +1,67 @@
+{
+  "title": "Privacy Statement",
+  "lastUpdated": "2024",
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "content": "LocaStat is a privacy-focused, offline data analysis application. This privacy statement explains how we handle your data and what information we collect (or don't collect) when you use our application."
+    },
+    {
+      "id": "data-collection",
+      "title": "Data Collection",
+      "content": "LocaStat does not collect, store, or transmit any of your data. All data processing occurs entirely within your web browser on your device. We do not have access to:\n\n• Your uploaded files (CSV, Excel, or any other format)\n• Your analysis results\n• Any personal information\n• Your browsing activity\n• Your device information\n\nYour data never leaves your device and is never sent to any server."
+    },
+    {
+      "id": "offline-operation",
+      "title": "Offline Operation",
+      "content": "LocaStat is designed to work completely offline. While an internet connection may be required for the initial page load, all data analysis and processing happens locally in your browser. Once loaded, you can use the application without any internet connection, ensuring complete privacy and security of your data."
+    },
+    {
+      "id": "session-storage",
+      "title": "Local Storage",
+      "content": "LocaStat uses browser session storage to temporarily store your data while you're using the application. This data is:\n\n• Stored only on your device\n• Automatically cleared when you close your browser tab or window\n• Never transmitted to any external server\n• Not accessible to other websites or applications\n\nYou can clear this data at any time by closing your browser tab or using your browser's clear data function."
+    },
+    {
+      "id": "no-accounts",
+      "title": "No User Accounts",
+      "content": "LocaStat does not require or support user account creation. There is no registration process, no login system, and no user database. You can use the application immediately without providing any personal information."
+    },
+    {
+      "id": "donations",
+      "title": "Donations",
+      "content": "LocaStat may provide links to third-party donation platforms (such as Buy Me a Coffee) for users who wish to support the project. These donations are processed entirely by the third-party platform. LocaStat does not:\n\n• Have access to your payment information\n• Store any donation-related data\n• Track who donates or how much\n• Receive any personal information from donation platforms\n\nAny data you provide to donation platforms is subject to their respective privacy policies, not ours."
+    },
+    {
+      "id": "analytics",
+      "title": "Analytics and Tracking",
+      "content": "LocaStat does not use any analytics services, tracking pixels, cookies for tracking purposes, or any other means to monitor your usage of the application. We do not know how often the application is used, what features are accessed, or any other usage statistics."
+    },
+    {
+      "id": "third-party-services",
+      "title": "Third-Party Services",
+      "content": "LocaStat may link to external services such as:\n\n• GitHub (for source code)\n• Buy Me a Coffee (for donations)\n\nThese links open in new tabs and are subject to the privacy policies of those respective services. LocaStat does not share any data with these services, and your interaction with them is independent of your use of LocaStat."
+    },
+    {
+      "id": "open-source",
+      "title": "Open Source",
+      "content": "LocaStat is an open-source application. The source code is publicly available on GitHub, allowing you to review exactly how the application works and verify our privacy claims. You can inspect the code to confirm that no data is being collected or transmitted."
+    },
+    {
+      "id": "changes",
+      "title": "Changes to This Privacy Statement",
+      "content": "If we make any changes to this privacy statement, we will update the \"Last Updated\" date at the top of this page. Since LocaStat does not collect any user data, we cannot notify you directly of changes. We encourage you to review this statement periodically."
+    },
+    {
+      "id": "contact",
+      "title": "Contact",
+      "content": "If you have any questions about this privacy statement or how LocaStat handles your data, you can:\n\n• Review the source code on GitHub\n• Open an issue on the GitHub repository\n• Contact the maintainers through the GitHub repository"
+    },
+    {
+      "id": "summary",
+      "title": "Summary",
+      "content": "In short: LocaStat is designed with privacy as a core principle. Your data stays on your device, we don't collect anything, and you can verify this by reviewing our open-source code. Use LocaStat with confidence that your data remains private and secure."
+    }
+  ]
+}
+

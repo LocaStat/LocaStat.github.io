@@ -50,7 +50,7 @@ const Index = () => {
 
   // Helper function to render a hero feature card
   const renderHeroCard = (feature: typeof heroFeatures[0], index: number, isMobile: boolean = false) => (
-    <Card className={`relative z-10 bg-card/60 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg group shadow-[0_0_20px_rgba(139,92,246,0.15)] hover:shadow-[0_0_30px_rgba(139,92,246,0.25)] ${isMobile ? 'aspect-square w-full' : ''}`}>
+    <Card className="relative z-10 bg-card/60 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg group shadow-[0_0_20px_rgba(139,92,246,0.15)] hover:shadow-[0_0_30px_rgba(139,92,246,0.25)]">
       <CardContent className="p-4 md:p-6 h-full flex flex-col">
         <div className="flex items-center gap-2 mb-3">
           {feature.icons.map((Icon, idx) => (
@@ -93,41 +93,41 @@ const Index = () => {
       
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-x-hidden w-full">
         <div className="absolute inset-0 bg-[var(--gradient-hero)] pointer-events-none" />
-        <div className="container mx-auto px-4 py-6 md:py-8 relative">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
+        <div className="container mx-auto px-4 py-6 md:py-8 relative max-w-full w-full">
+          <div className="grid md:grid-cols-2 gap-12 items-center w-full">
+            <div className="space-y-6 min-w-0 w-full max-w-full overflow-hidden">
 
-              <h2 className="text-4xl md:text-6xl font-bold leading-tight">
-                Exploratory Data Analysis for{" "}
-                <span className="bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">
-                  Scientists
+              <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-6xl font-bold leading-tight break-words">
+                <span className="block">Exploratory Data Analysis</span>
+                <span className="block bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">
+                  for Scientists
                 </span>
               </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed break-words">
                 A modern, privacy-focused tool for researchers to explore, analyze, and visualize
                 their data - completely offline. Your data never leaves your device.
               </p>
-              <div className="inline-block flex flex-row gap-2">
-              <span className="text-sm font-semibold text-primary bg-primary/10 px-4 py-2 rounded-full">
+              <div className="flex flex-row flex-wrap gap-2 max-w-full">
+              <span className="text-xs sm:text-sm font-semibold text-primary bg-primary/10 px-3 sm:px-4 py-2 rounded-full whitespace-nowrap">
                   No-Code
                 </span>
-                <span className="text-sm font-semibold text-primary bg-primary/10 px-4 py-2 rounded-full">
+                <span className="text-xs sm:text-sm font-semibold text-primary bg-primary/10 px-3 sm:px-4 py-2 rounded-full whitespace-nowrap">
                   Offline
                 </span>
-                <span className="text-sm font-semibold text-primary bg-primary/10 px-4 py-2 rounded-full">
+                <span className="text-xs sm:text-sm font-semibold text-primary bg-primary/10 px-3 sm:px-4 py-2 rounded-full whitespace-nowrap">
                   Secure
                 </span>
               </div>
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Link to="/app" className="block w-full sm:w-auto">
-                  <Button variant="hero" size="xl" className="w-full sm:w-auto group">
-                    Start Analyzing Data
-                    <FileUp className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              <div className="flex flex-col sm:flex-row gap-4 pt-4 w-full">
+                <Link to="/app" className="w-full sm:flex-1 min-w-0 flex">
+                  <Button variant="hero" size="sm" className="w-full sm:w-auto sm:size-lg group text-xs sm:text-base px-2 sm:px-8 flex-1 sm:flex-initial">
+                    <span className="truncate">Start Analyzing</span>
+                    <FileUp className="ml-1 sm:ml-2 h-3 w-3 sm:h-5 sm:w-5 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
-                <Button variant="outline" size="xl" className="w-full sm:w-auto">
+                <Button variant="outline" size="sm" className="w-full sm:w-auto sm:size-lg text-xs sm:text-base px-3 sm:px-8">
                   Learn More
                 </Button>
               </div>
@@ -229,8 +229,13 @@ const Index = () => {
               <img src="/logo.png" alt="LocaStat Logo" className="h-6 w-6" />
               <span className="font-semibold">LocaStat</span>
             </div>
-            <div className="text-sm text-muted-foreground">
-              Built for researchers, by researchers. 100% offline, 100% private.
+            <div className="flex flex-col md:flex-row items-center gap-4">
+              <div className="text-sm text-muted-foreground">
+                Built for researchers, by researchers. 100% offline, 100% private.
+              </div>
+              <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Privacy Statement
+              </Link>
             </div>
           </div>
         </div>

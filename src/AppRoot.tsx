@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation, Link } from "react-router-do
 import Index from "./pages/Index";
 import AppPage from "./pages/App";
 import NotFound from "./pages/NotFound";
+import Privacy from "./pages/Privacy";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 
@@ -42,6 +43,7 @@ const AppRoot = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/app" element={<AppPage />} />
+          <Route path="/privacy" element={<Privacy />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
