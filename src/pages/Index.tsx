@@ -93,11 +93,11 @@ const Index = () => {
       
 
       {/* Hero Section */}
-      <section className="relative overflow-x-hidden w-full">
+      <section className="relative overflow-x-hidden ">
         <div className="absolute inset-0 bg-[var(--gradient-hero)] pointer-events-none" />
-        <div className="container mx-auto px-4 py-6 md:py-8 relative max-w-full w-full">
-          <div className="grid md:grid-cols-2 gap-12 items-center w-full">
-            <div className="space-y-6 min-w-0 w-full max-w-full overflow-hidden">
+        <div className="container mx-auto px-4 py-6 md:py-8 relative">
+          <div className="grid md:grid-cols-2 gap-12 items-center ">
+            <div className="space-y-6 min-w-0">
 
               <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-6xl font-bold leading-tight break-words">
                 <span className="block">Exploratory Data Analysis</span>
@@ -120,33 +120,20 @@ const Index = () => {
                   Secure
                 </span>
               </div>
-              <div className="flex flex-col sm:flex-row gap-4 pt-4 w-full">
-                <Link to="/app" className="w-full sm:flex-1 min-w-0 flex">
-                  <Button variant="hero" size="sm" className="w-full sm:w-auto sm:size-lg group text-xs sm:text-base px-2 sm:px-8 flex-1 sm:flex-initial">
-                    <span className="truncate">Start Analyzing</span>
-                    <FileUp className="ml-1 sm:ml-2 h-3 w-3 sm:h-5 sm:w-5 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Link to="/app" className="block w-full sm:w-auto">
+                  <Button variant="hero" size="xl" className="w-full sm:w-auto group">
+                    Start Analyzing Data
+                    <FileUp className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
-                <Button variant="outline" size="sm" className="w-full sm:w-auto sm:size-lg text-xs sm:text-base px-3 sm:px-8">
+                <Button variant="outline" size="xl" className="w-full sm:w-auto">
                   Learn More
                 </Button>
               </div>
             </div>
-            {/* Mobile Carousel */}
-            <div className="relative md:hidden w-full">
-              <Carousel className="w-full">
-                <CarouselContent>
-                  {heroFeatures.map((feature, index) => (
-                    <CarouselItem key={index} className="pl-0 basis-full">
-                      {renderHeroCard(feature, index, true)}
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-              </Carousel>
-            </div>
-
             {/* Desktop Grid */}
-            <div className="hidden md:grid relative grid-cols-2 gap-4 h-full min-h-[500px]">
+            <div className="md:grid relative grid-cols-2 gap-4 h-full min-h-[500px]">
               {/* Center image overlay - behind cards, double size */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-24 h-24 md:w-32 md:h-32">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-[hsl(var(--primary-glow))]/20 blur-3xl rounded-full" />
