@@ -1,9 +1,52 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Lock, Zap, TrendingUp, FileUp, BarChart3, Shield, Cloud, Github, Heart, TabletSmartphone } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Lock, Zap, TrendingUp, FileUp, BarChart3, Shield, Cloud, Github, Heart, TabletSmartphone, Upload, LineChart, Database, TableRowsSplit, TableCellsSplit, TableColumnsSplit, ChartCandlestick, ChartNoAxesCombined, TableOfContents, ChartPie, ChartScatter, ChartColumnStacked, Sheet, FileSpreadsheet } from "lucide-react";
 import heroImage from "@/assets/hero-illustration.jpg";
 
+// Helper function to highlight substrings in text
+const highlightText = (text: string, highlight: string): React.ReactNode => {
+  if (!highlight) return text;
+  
+  const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+  return parts.map((part, index) => 
+    part.toLowerCase() === highlight.toLowerCase() ? (
+      <span key={index} className="text-primary font-semibold">{part}</span>
+    ) : (
+      part
+    )
+  );
+};
+
 const Index = () => {
+  const heroFeatures = [
+    {
+      icons: [TableRowsSplit, TableCellsSplit, TableColumnsSplit],
+      title: "Filter and Export",
+      description: "Download only a handful of columns among thousands - like selected proteins, genes or metabolytes in OMICS data.",
+      highlight: "OMICS",
+    },
+    {
+      icons: [TableOfContents, ChartNoAxesCombined, ChartCandlestick],
+      title: "Statistical Analysis",
+      description: "Comprehensive tools for exploring your data with descriptive statistics and insights.",
+      highlight: "descriptive statistics",
+    },
+    {
+      icons: [ChartColumnStacked, ChartPie, ChartScatter],
+      title: "Rich Visualizations",
+      description: "Create and download beautiful charts to understand patterns and trends in your data.",
+      highlight: "beautiful charts",
+    },
+    {
+      icons: [Sheet, FileSpreadsheet, Database],
+      title: "Data Management",
+      description: "Handle multiple data formats, preview data, and export results - all with a clean, intuitive interface.",
+      highlight: "data formats",
+    },
+  ];
+
   const features = [
     {
       icon: Cloud,
@@ -71,13 +114,76 @@ const Index = () => {
                 </Button>
               </div>
             </div>
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-[hsl(var(--primary-glow))]/20 blur-3xl rounded-full" />
-              <img
-                src={heroImage}
-                alt="Data visualization illustration"
-                className="relative rounded-2xl shadow-2xl w-full"
-              />
+            <div className="relative grid grid-cols-2 gap-4 h-full min-h-[500px]">
+              {/* Center image overlay - behind cards, double size */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-24 h-24 md:w-32 md:h-32">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-[hsl(var(--primary-glow))]/20 blur-3xl rounded-full" />
+                <img
+                  src={heroImage}
+                  alt="Data visualization illustration"
+                  className="relative rounded-2xl shadow-2xl w-full h-full object-cover"
+                />
+              </div>
+              
+              {/* Top-left card */}
+              <Card className="relative z-10 bg-card/60 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg group shadow-[0_0_20px_rgba(139,92,246,0.15)] hover:shadow-[0_0_30px_rgba(139,92,246,0.25)]">
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    {heroFeatures[0].icons.map((Icon, idx) => (
+                      <div key={idx} className="bg-primary/10 w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Icon className="h-5 w-5 md:h-6 md:w-6 text-primary" />
+                      </div>
+                    ))}
+                  </div>
+                  <h4 className="text-base md:text-lg font-semibold mb-2">{heroFeatures[0].title}</h4>
+                  <p className="hidden md:block text-xs md:text-sm text-muted-foreground">{highlightText(heroFeatures[0].description, heroFeatures[0].highlight)}</p>
+                </CardContent>
+              </Card>
+              
+              {/* Top-right card */}
+              <Card className="relative z-10 bg-card/60 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg group shadow-[0_0_20px_rgba(139,92,246,0.15)] hover:shadow-[0_0_30px_rgba(139,92,246,0.25)]">
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    {heroFeatures[1].icons.map((Icon, idx) => (
+                      <div key={idx} className="bg-primary/10 w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Icon className="h-5 w-5 md:h-6 md:w-6 text-primary" />
+                      </div>
+                    ))}
+                  </div>
+                  <h4 className="text-base md:text-lg font-semibold mb-2">{heroFeatures[1].title}</h4>
+                  <p className="hidden md:block text-xs md:text-sm text-muted-foreground">{highlightText(heroFeatures[1].description, heroFeatures[1].highlight)}</p>
+                </CardContent>
+              </Card>
+              
+              {/* Bottom-left card */}
+              <Card className="relative z-10 bg-card/60 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg group shadow-[0_0_20px_rgba(139,92,246,0.15)] hover:shadow-[0_0_30px_rgba(139,92,246,0.25)]">
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    {heroFeatures[2].icons.map((Icon, idx) => (
+                      <div key={idx} className="bg-primary/10 w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Icon className="h-5 w-5 md:h-6 md:w-6 text-primary" />
+                      </div>
+                    ))}
+                  </div>
+                  <h4 className="text-base md:text-lg font-semibold mb-2">{heroFeatures[2].title}</h4>
+                  <p className="hidden md:block text-xs md:text-sm text-muted-foreground">{highlightText(heroFeatures[2].description, heroFeatures[2].highlight)}</p>
+                </CardContent>
+              </Card>
+              
+              {/* Bottom-right card */}
+              <Card className="relative z-10 bg-card/60 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg group shadow-[0_0_20px_rgba(139,92,246,0.15)] hover:shadow-[0_0_30px_rgba(139,92,246,0.25)]">
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    {heroFeatures[3].icons.map((Icon, idx) => (
+                      <div key={idx} className="bg-primary/10 w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Icon className="h-5 w-5 md:h-6 md:w-6 text-primary" />
+                      </div>
+                    ))}
+                  </div>
+                  <h4 className="text-base md:text-lg font-semibold mb-2">{heroFeatures[3].title}</h4>
+                  <p className="hidden md:block text-xs md:text-sm text-muted-foreground">{highlightText(heroFeatures[3].description, heroFeatures[3].highlight)}</p>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
